@@ -1,3 +1,36 @@
-<h2 id="title">Welcome to Ember</h2>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <ul class="nav navbar-nav navbar-left">
+      <li><a class="navbar-brand" href="#">Civ Remake</a></li>
+      {{#if userLoggedIn}}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" id="setup-menu" data-toggle="dropdown" aria-expanded="true">
+            Settings<span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="setup-menu">
+            <li><a href="#" {{action 'setSetting1'}}>Setting 1</a></li>
+            <li><a href="#" {{action 'setSetting1'}}>Setting 2</a></li>
+            <li><a href="#" {{action 'setSetting1'}}>Setting 3</a></li>
+          </ul>
+        </li>
+      {{/if}}
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" id="help-menu" data-toggle="dropdown" aria-expanded="true">
+          Help<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="help-menu">
+          <li><a href="#" {{action 'showFAQ'}}>FAQ</a></li>
+          <li><a href="#" {{action 'reportBug'}}>Report Bug</a></li>
+        </ul>
+      </li>
+      <li><a href="#" {{action 'transitionToAbout'}}>About</a></li>
+      <li><a href="#" {{action 'triggerAuthAction'}}>{{authActionName}}</a></li>
+    </ul>
+  </div>
+</nav>
 
-{{outlet}}
+<div class="container">
+  {{outlet}}
+</div>
