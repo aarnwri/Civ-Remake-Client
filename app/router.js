@@ -9,6 +9,7 @@ Router.map(function() {
   this.route('login');
   this.route('sign-up');
   this.route('logout');
+  this.route('games');
 });
 
 export default Router;

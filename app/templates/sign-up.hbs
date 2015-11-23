@@ -1,3 +1,14 @@
-{{outlet}}
+{{partial 'partials/logo'}}
 
-This is the sign-up page!
+<div class='col-md-4'>
+  <form>
+    {{partial 'partials/email-password'}}
+    <div class="form-group">
+      {{input type="password" value=passwordConfirmation class="form-control" placeholder="Password Confirmation"}}
+    </div>
+    {{partial 'partials/remember-me'}}
+    <div class="form-group">
+      <button class="btn btn-primary" {{action 'signUp'}}>Sign Up</button>
+    </div>
+  </form>
+</div>

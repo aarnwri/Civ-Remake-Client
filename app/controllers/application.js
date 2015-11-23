@@ -2,8 +2,35 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
-  // TODO: fix this...
-  userLoggedIn: true,
+  ////////////////////////////////////////////////////////////////////////
+  /// authentication
+  ////////////////////////////////////////////////////////////////////////
+
+  userLoggedIn: false,
+  currentUser: null,
+
+  setRememberedUser: function (user) {
+    // user should be a plain object
+    if (user) {
+      localStorage.setItem('rememberedUserEmail', user.email);
+      localStorage.setItem('rememberedUserPassword', user.password);
+    } else {
+      localStorage.setItem('rememberedUserEmail', '');
+      localStorage.setItem('rememberedUserPassword', '');
+    }
+  },
+  
+  getRememberedUser: function () {
+    var rememberedUser = {
+      email: localStorage.getItem('rememberedUserEmail'),
+      password: localStorage.getItem('rememberedUserPassword')
+    };
+    return rememberedUser;
+  },
+
+  ////////////////////////////////////////////////////////////////////////
+  /// template helpers
+  ////////////////////////////////////////////////////////////////////////
 
   isLoginPage: function () {
     return this.get('currentPath') === "login";

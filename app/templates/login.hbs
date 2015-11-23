@@ -1,3 +1,11 @@
-{{outlet}}
+{{partial 'partials/logo'}}
 
-This is the login page!
+<div class='col-md-4'>
+  <form>
+    {{partial 'partials/email-password'}}
+    {{partial 'partials/remember-me'}}
+    <div class="form-group">
+      <button class="btn btn-primary" {{action 'login'}}>Login</button>
+    </div>
+  </form>
+</div>
