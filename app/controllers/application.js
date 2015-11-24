@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from '../config/environment';
 
 export default Ember.Controller.extend({
 
@@ -9,23 +10,56 @@ export default Ember.Controller.extend({
   userLoggedIn: false,
   currentUser: null,
 
-  setRememberedUser: function (user) {
-    // user should be a plain object
-    if (user) {
-      localStorage.setItem('rememberedUserEmail', user.email);
-      localStorage.setItem('rememberedUserPassword', user.password);
-    } else {
-      localStorage.setItem('rememberedUserEmail', '');
-      localStorage.setItem('rememberedUserPassword', '');
-    }
+  logout: function () {
+    this.removeAllData();
+    this.set('userLoggedIn', false);
   },
-  
-  getRememberedUser: function () {
-    var rememberedUser = {
-      email: localStorage.getItem('rememberedUserEmail'),
-      password: localStorage.getItem('rememberedUserPassword')
-    };
-    return rememberedUser;
+
+  // setRememberedUser: function (user) {
+  //   // user should be a plain object
+  //   if (user) {
+  //     localStorage.setItem('rememberedUserEmail', user.email);
+  //     localStorage.setItem('rememberedUserPassword', user.password);
+  //   } else {
+  //     localStorage.setItem('rememberedUserEmail', '');
+  //     localStorage.setItem('rememberedUserPassword', '');
+  //   }
+  // },
+
+  // getRememberedUser: function () {
+  //   var rememberedUser = {
+  //     email: localStorage.getItem('rememberedUserEmail'),
+  //     password: localStorage.getItem('rememberedUserPassword')
+  //   };
+  //   return rememberedUser;
+  // },
+
+  ////////////////////////////////////////////////////////////////////////
+  /// data helpers
+  ////////////////////////////////////////////////////////////////////////
+
+  removeAllData: function () {
+    var controller = this;
+
+    var modelPaths = Object.keys(require.entries).filter(function(module) {
+      return module.indexOf(config.modulePrefix + '/models/') === 0;
+    });
+
+    var models = modelPaths.map(function (path) {
+      return path.split('/').get('lastObject');
+    }).reject(function (model) {
+      return model === "base";
+    });
+
+    models.forEach(function (model) {
+      controller.removeAllRecordsOfType(model);
+    });
+  },
+
+  removeAllRecordsOfType: function (type) {
+    this.store.peekAll(type).forEach(function (model) {
+      model.removeSelf();
+    });
   },
 
   ////////////////////////////////////////////////////////////////////////
@@ -61,6 +95,7 @@ export default Ember.Controller.extend({
       } else if (this.get('isSignUpPage') || this.get('isLogoutPage')) {
         this.transitionToRoute('login');
       } else {
+        this.logout();
         this.transitionToRoute('logout');
       }
     }

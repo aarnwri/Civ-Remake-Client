@@ -20,11 +20,12 @@ export default Ember.Controller.extend({
 
   onSessionSaveSuccess: function (session) {
     // var controller = this;
-    this.setRememberMe();
-    this.clearFields();
-    this.updateHeaders(session.get('authToken'));
 
-    this.get('controllers.application').updateUserLoggedIn();
+    // this.setRememberMe();
+    this.clearFields();
+    this.updateHeaders(session.get('token'));
+
+    // this.get('controllers.application').updateUserLoggedIn();
     this.transitionToRoute('games');
   },
 
@@ -35,7 +36,6 @@ export default Ember.Controller.extend({
 
   actions: {
     login: function () {
-      console.log('login called');
       var controller = this;
 
       if (!this.credentialFormatValid()) {
@@ -46,14 +46,12 @@ export default Ember.Controller.extend({
       var session = this.store.createRecord('session', {});
       session.save().then(function (session) {
         //success callback
-        console.log("session: " + session);
         controller.onSessionSaveSuccess(session);
       }, function (err) {
         //failure callback
-        console.log("err: " + err);
         controller.set('password', '');
         session.removeSelf();
-        console.log("fail");
+        console.log("saving session failed: err: " + err);
       });
     }
   },
