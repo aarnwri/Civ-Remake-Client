@@ -11,8 +11,23 @@ export default Ember.Controller.extend({
   currentUser: null,
 
   logout: function () {
-    this.removeAllData();
-    this.set('userLoggedIn', false);
+    var controller = this;
+    var session = this.store.peekAll('session').get('firstObject');
+
+    session.destroyRecord().then(function () {
+      // session.delete success callback
+
+    }, function () {
+      // session.delete failure callback
+    }).finally(function () {
+      // even if logging out fails, we want to remove all the local data in case
+      // another user wants to login on the same machine
+
+      controller.removeAllData();
+      controller.set('userLoggedIn', false);
+      controller.store.adapterFor('application').removeAuthHeader();
+      controller.transitionToRoute('logout');
+    });
   },
 
   // setRememberedUser: function (user) {

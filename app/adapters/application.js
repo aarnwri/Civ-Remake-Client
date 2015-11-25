@@ -6,10 +6,9 @@ import DS from 'ember-data';
 export default DS.RESTAdapter.extend({
   host: "http://localhost:3000/api/v1",
 
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  },
+  headers: function () {
+    return this.defaultHeaders();
+  }.property(),
 
   updateHeadersWithEmailPassword: function (email, password) {
     this.set('headers', Ember.$.extend({}, this.get('headers'), {
@@ -21,5 +20,16 @@ export default DS.RESTAdapter.extend({
     this.set('headers', Ember.$.extend({}, this.get('headers'), {
       'Authorization': 'Token token=' + token
     }));
+  },
+
+  defaultHeaders: function () {
+    return {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+  },
+
+  removeAuthHeader: function () {
+    this.set('headers', this.defaultHeaders());
   }
 });

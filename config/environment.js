@@ -16,7 +16,7 @@ module.exports = function(environment) {
       'default-src': "'none'",
       'script-src': "'self'",
       'font-src': "'self'",
-      'connect-src': "'self' http://*:35729", //TODO: I don't understand why * needs to be substituted for 'localhost'
+      'connect-src': "'self' http://*:35729", // TODO: I don't understand why * needs to be substituted for 'localhost'
       'img-src': "'self'",
       'style-src': "'self'",
       'media-src': "'self'"

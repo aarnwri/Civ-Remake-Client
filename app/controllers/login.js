@@ -45,10 +45,10 @@ export default Ember.Controller.extend({
 
       var session = this.store.createRecord('session', {});
       session.save().then(function (session) {
-        //success callback
+        // success callback
         controller.onSessionSaveSuccess(session);
       }, function (err) {
-        //failure callback
+        // failure callback
         controller.set('password', '');
         session.removeSelf();
         console.log("saving session failed: err: " + err);
@@ -67,12 +67,12 @@ export default Ember.Controller.extend({
   },
 
   credentialFormatValid: function () {
-    //TODO: check credentials for valid format, password long enough...
+    // TODO: check credentials for valid format, password long enough...
 
-    this.set('validCredentials', true); //TODO: don't hard code this
+    this.set('validCredentials', true); // TODO: don't hard code this
 
     if (!this.get('validCredentials')) {
-      alert("those credentials aren't valid"); //TODO: make this interface nicer
+      alert("those credentials aren't valid"); // TODO: make this interface nicer
       return false;
     }
     return true;
