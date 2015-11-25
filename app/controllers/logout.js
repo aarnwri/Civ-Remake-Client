@@ -10,19 +10,27 @@ export default Ember.Controller.extend({
     console.log("controller: " + controller);
     console.log("session: " + session);
 
-    session.destroyRecord().then(function () {
-      // session.delete success callback
+    if (session) {
+      session.destroyRecord().then(function () {
+        // session.delete success callback
 
-    }, function () {
-      // session.delete failure callback
+      }, function () {
+        // session.delete failure callback
 
-    }).finally(function () {
-      // even if logging out fails, we want to remove all the local data in case
-      // another user wants to login on the same machine
+      }).finally(function () {
+        // even if logging out fails, we want to remove all the local data in case
+        // another user wants to login on the same machine
 
+        controller.get('applicationController').removeAllData();
+        controller.get('applicationController').set('userLoggedIn', false);
+        controller.store.adapterFor('application').removeAuthHeader();
+      });
+    } else {
+      // NOTE: this shouldn't happen under normal circumstances...
+      
       controller.get('applicationController').removeAllData();
       controller.get('applicationController').set('userLoggedIn', false);
       controller.store.adapterFor('application').removeAuthHeader();
-    });
+    }
   },
 });
