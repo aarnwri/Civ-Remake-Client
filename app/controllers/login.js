@@ -16,7 +16,7 @@ export default Ember.Controller.extend({
     }
   },
 
-  login: function (email, password, destination) {
+  login: function (email, password) {
     var controller = this;
 
     this.store.adapterFor('application').updateHeadersWithEmailPassword(email, password);
@@ -29,11 +29,10 @@ export default Ember.Controller.extend({
 
       controller.store.adapterFor('application').updateHeadersWithToken(session.get('token'));
       controller.get('applicationController').set('userLoggedIn', true);
-      controller.transitionToRoute(destination);
+      controller.transitionToRoute('games');
     }, function (err) {
       // failure callback
 
-      controller.set('password', '');
       session.removeSelf();
       console.log("saving session failed: err: " + err);
     });
