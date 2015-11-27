@@ -17,18 +17,25 @@ export default Ember.Route.extend({
           // even if logging out fails, we want to remove all the local data in case
           // another user wants to login on the same machine
 
-          route.controllerFor('application').removeAllData();
-          route.controllerFor('application').set('userLoggedIn', false);
-          route.store.adapterFor('application').removeAuthHeader();
+          route.logout();
           resolve(true);
         });
       });
     } else {
       // NOTE: this shouldn't happen under normal circumstances...
 
-      this.controllerFor('application').set('userLoggedIn', false);
-      this.controllerFor('application').removeAllData();
-      this.store.adapterFor('application').removeAuthHeader();
+      this.logout();
     }
+  },
+
+  ////////////////////////////////////////////////////////////////////////
+  /// helpers
+  ////////////////////////////////////////////////////////////////////////
+
+  logout: function () {
+    this.controllerFor('application').set('userLoggedIn', false);
+    this.controllerFor('application').removeAllData();
+    this.controllerFor('application').setRememberedUser(null);
+    this.store.adapterFor('application').removeAuthHeader();
   }
 });

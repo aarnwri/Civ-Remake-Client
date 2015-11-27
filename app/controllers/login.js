@@ -8,6 +8,8 @@ export default Ember.Controller.extend({
   rememberMe: false,
 
   handleRememberMeField: function () {
+    console.log('hRMF called');
+    console.log('rememberMe: ' + this.get('rememberMe'));
     if (this.get('rememberMe')) {
       this.get('applicationController').setRememberedUser({
         email: this.get('email'),
@@ -30,6 +32,7 @@ export default Ember.Controller.extend({
       controller.store.adapterFor('application').updateHeadersWithToken(session.get('token'));
       controller.get('applicationController').set('userLoggedIn', true);
       controller.transitionToRoute('games');
+      controller.clearFields();
     }, function (err) {
       // failure callback
 
@@ -42,7 +45,6 @@ export default Ember.Controller.extend({
     submitLoginForm: function () {
       if (this.validFormData()) {
         this.login(this.get('email'), this.get('password'));
-        this.clearFields();
       }
     }
   },
