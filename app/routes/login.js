@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
-  // This keeps the login screen from actually showing up if the user checked the rememberMe box
+  // This keeps the login screen from actually showing up if the user never logged out and checked "remember me"
   beforeModel: function () {
     var route = this;
 
