@@ -1,14 +1,17 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-// TODO: think about using the JSONAPIAdapter here... must adhere to these conventions: http://jsonapi.org/
-// export default DS.JSONAPIAdapter.extend({
-export default DS.RESTAdapter.extend({
+export default DS.JSONAPIAdapter.extend({
   host: "http://localhost:3000/api/v1",
 
   headers: function () {
-    return this.defaultHeaders();
+    return this.get('defaultHeaders');
   }.property(),
+
+  defaultHeaders: {
+    'Accept': 'application/vnd.api+json',
+    'Content-Type': 'application/vnd.api+json'
+  },
 
   updateHeadersWithEmailPassword: function (email, password) {
     this.set('headers', Ember.$.extend({}, this.get('headers'), {
@@ -22,14 +25,7 @@ export default DS.RESTAdapter.extend({
     }));
   },
 
-  defaultHeaders: function () {
-    return {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    };
-  },
-
   removeAuthHeader: function () {
-    this.set('headers', this.defaultHeaders());
+    this.set('headers', this.get('defaultHeaders'));
   }
 });

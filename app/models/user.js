@@ -1,5 +1,5 @@
-import Base from '../models/base';
 import DS from 'ember-data';
+import Base from '../models/base';
 
 export default Base.extend({
   email: DS.attr('string'),

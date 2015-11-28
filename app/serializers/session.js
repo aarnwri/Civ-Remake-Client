@@ -1,7 +1,6 @@
 import DS from 'ember-data';
+import Application from '../serializers/application';
 
-export default DS.RESTSerializer.extend({
-
-
-
+export default Application.extend({
+  
 });
