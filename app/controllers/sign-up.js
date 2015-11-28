@@ -36,6 +36,8 @@ export default Ember.Controller.extend({
 
       user.removeSelf();
       console.log("saving user failed: err: " + err);
+    }).finally(function () {
+      controller.clearFields();
     });
   },
 
@@ -43,7 +45,6 @@ export default Ember.Controller.extend({
     submitSignUpForm: function () {
       if (this.validFormData()) {
         this.signup(this.get('email'), this.get('password'));
-        this.clearFields();
       }
     }
   },

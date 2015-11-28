@@ -32,12 +32,13 @@ export default Ember.Controller.extend({
       controller.store.adapterFor('application').updateHeadersWithToken(session.get('token'));
       controller.get('applicationController').set('userLoggedIn', true);
       controller.transitionToRoute('games');
-      controller.clearFields();
     }, function (err) {
       // failure callback
 
       session.removeSelf();
       console.log("saving session failed: err: " + err);
+    }).finally(function () {
+      controller.clearFields();
     });
   },
 
