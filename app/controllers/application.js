@@ -3,8 +3,17 @@ import config from '../config/environment';
 
 export default Ember.Controller.extend({
 
-  userLoggedIn: false,
-  currentUser: null,
+  currentUser: function () {
+    return this.get('userLoggedIn') ? this.get('sessions.firstObject.user') : null;
+  }.property('userLoggedIn'),
+
+  userLoggedIn: function () {
+    return this.get('sessions.[].length') === 1;
+  }.property('sessions.[]'),
+
+  sessions: function () {
+    return this.store.peekAll('session');
+  }.property(),
 
   ////////////////////////////////////////////////////////////////////////
   /// localStorage helpers

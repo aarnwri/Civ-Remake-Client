@@ -16,7 +16,6 @@ export default Ember.Route.extend({
           // success callback
 
           route.store.adapterFor('application').updateHeadersWithToken(session.get('token'));
-          route.controllerFor('application').set('userLoggedIn', true);
           route.transitionTo('games');
         }, function (err) {
           // failure callback

@@ -33,7 +33,6 @@ export default Ember.Route.extend({
   ////////////////////////////////////////////////////////////////////////
 
   logout: function () {
-    this.controllerFor('application').set('userLoggedIn', false);
     this.controllerFor('application').removeAllData();
     this.controllerFor('application').setRememberedUser(null);
     this.store.adapterFor('application').removeAuthHeader();

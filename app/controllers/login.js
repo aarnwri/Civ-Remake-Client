@@ -28,7 +28,6 @@ export default Ember.Controller.extend({
       controller.handleRememberMeField();
 
       controller.store.adapterFor('application').updateHeadersWithToken(session.get('token'));
-      controller.get('applicationController').set('userLoggedIn', true);
       controller.transitionToRoute('games');
     }, function (err) {
       // failure callback
