@@ -8,8 +8,6 @@ export default Ember.Controller.extend({
   rememberMe: false,
 
   handleRememberMeField: function () {
-    console.log('hRMF called');
-    console.log('rememberMe: ' + this.get('rememberMe'));
     if (this.get('rememberMe')) {
       this.get('applicationController').setRememberedUser({
         email: this.get('email'),
