@@ -10,6 +10,10 @@ export default Ember.Controller.extend(ModalForm, {
       this.setupModal('Create Game', 'partials/modal-bodies/create-game', 'Save', 'saveGame', true);
     },
 
+    joinGame: function () {
+      console.log('joinGame called, but not implemented yet...');
+    },
+
     // called by the create-game modal
     saveGame: function () {
       console.log('saveGame called');

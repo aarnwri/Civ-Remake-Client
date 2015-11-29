@@ -1,11 +1,13 @@
 <div class='col-md-2'>
   <h5>Game List</h5>
 
-  <form>
-    <div class="form-group">
-      <button class="btn btn-primary form-control" {{action 'createGame'}}>Create New</button>
-    </div>
-  </form>
+
+  <div class="form-group">
+    <button class="btn btn-primary form-control" {{action 'createGame'}}>Create New</button>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary form-control" {{action 'joinGame'}}>Join</button>
+  </div>
 </div>
 
 {{partial 'partials/modal-form'}}
