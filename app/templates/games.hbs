@@ -1,3 +1,11 @@
-This is the list of games!
+<div class='col-md-2'>
+  <h5>Game List</h5>
 
-{{outlet}}
+  <form>
+    <div class="form-group">
+      <button class="btn btn-primary form-control" {{action 'createGame'}}>Create New</button>
+    </div>
+  </form>
+</div>
+
+{{partial 'partials/modal-form'}}
