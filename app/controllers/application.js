@@ -2,6 +2,7 @@ import Ember from 'ember';
 import config from '../config/environment';
 
 export default Ember.Controller.extend({
+  sessionController: Ember.inject.controller('session'),
 
   currentUser: function () {
     return this.get('userLoggedIn') ? this.get('sessions.firstObject.user') : null;
@@ -11,9 +12,14 @@ export default Ember.Controller.extend({
     return this.get('sessions.[].length') === 1;
   }.property('sessions.[]'),
 
-  sessions: function () {
-    return this.store.peekAll('session');
-  }.property(),
+  updateAuthHeader: function () {
+    var applicationAdapter = this.store.adapterFor('application');
+    if (this.get('currentUser')) {
+      applicationAdapter.updateHeadersWithToken(this.get('currentUser.session.token'));
+    } else {
+      applicationAdapter.removeAuthHeader();
+    }
+  }.observes('currentUser'),
 
   ////////////////////////////////////////////////////////////////////////
   /// localStorage helpers

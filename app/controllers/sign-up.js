@@ -9,13 +9,13 @@ export default Ember.Controller.extend({
   rememberMe: false,
 
   handleRememberMeField: function () {
-    if (this.get('rememberMe')) {
+    if (this.get('rememberMe') && this.get('applicationController.userLoggedIn')) {
       this.get('applicationController').setRememberedUser({
         email: this.get('email'),
         password: this.get('password')
       });
     }
-  },
+  }.observes('rememberMe', 'applicationController.userLoggedIn'),
 
   signup: function (email, password) {
     var controller = this;
@@ -25,8 +25,6 @@ export default Ember.Controller.extend({
     var user = this.store.createRecord('user');
     user.save().then(function (user) {
       // success callback
-
-      controller.handleRememberMeField();
 
       controller.store.adapterFor('application').updateHeadersWithToken(user.get('session.token'));
       controller.transitionToRoute('games');

@@ -5,24 +5,16 @@ export default Ember.Route.extend({
   // This keeps the login screen from actually showing up if the user never logged out and checked "remember me"
   beforeModel: function () {
     var route = this;
+    var sessionController = this.controllerFor('session');
+    var user = sessionController.getRememberedUser();
 
-    var user = this.controllerFor('application').getRememberedUser();
     if (user && user.email) {
       return new Ember.RSVP.Promise(function (resolve) {
-        route.store.adapterFor('application').updateHeadersWithEmailPassword(user.email, user.password);
-
-        var session = route.store.createRecord('session');
-        session.save().then(function (session) {
-          // success callback
-
-          route.store.adapterFor('application').updateHeadersWithToken(session.get('token'));
+        sessionController.login(user, function () {
+          // successCallback
           route.transitionTo('games');
-        }, function (err) {
-          // failure callback
-
-          session.removeSelf();
-          console.log("saving session failed: err: " + err);
-        }).finally(function () {
+        }, null, function () {
+          // finallyCallback
           resolve(true);
         });
       });
