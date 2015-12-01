@@ -4,40 +4,15 @@ import config from '../config/environment';
 export default Ember.Controller.extend({
   sessionController: Ember.inject.controller('session'),
 
-  currentUser: function () {
-    return this.get('userLoggedIn') ? this.get('sessions.firstObject.user') : null;
-  }.property('userLoggedIn'),
+  currentUser: Ember.computed.alias('sessionController.currentSession.user'),
+  // currentUser: function () {
+  //
+  // }.property('sessionController.session')
 
-  userLoggedIn: function () {
-    return this.get('sessions.[].length') === 1;
-  }.property('sessions.[]'),
-
-  updateAuthHeader: function () {
-    var applicationAdapter = this.store.adapterFor('application');
-    if (this.get('currentUser')) {
-      applicationAdapter.updateHeadersWithToken(this.get('currentUser.session.token'));
-    } else {
-      applicationAdapter.removeAuthHeader();
-    }
-  }.observes('currentUser'),
-
-  ////////////////////////////////////////////////////////////////////////
-  /// localStorage helpers
-  ////////////////////////////////////////////////////////////////////////
-
-  setRememberedUser: function (user) {
-    // user argument should be a plain object
-    localStorage.setItem('rememberedUserEmail', (user && user.email) ? user.email : '');
-    localStorage.setItem('rememberedUserPassword', (user && user.password) ? user.password : '');
-  },
-
-  getRememberedUser: function () {
-    var rememberedUser = {
-      email: localStorage.getItem('rememberedUserEmail'),
-      password: localStorage.getItem('rememberedUserPassword')
-    };
-    return rememberedUser;
-  },
+  userLoggedIn: Ember.computed.bool('currentUser'),
+  // userLoggedIn: function () {
+  //   return this.get('currentUser') ? true : false;
+  // }.property('currentUser'),
 
   ////////////////////////////////////////////////////////////////////////
   /// data helpers
@@ -98,8 +73,12 @@ export default Ember.Controller.extend({
       if (this.get('isLoginPage')) {
         this.transitionToRoute('sign-up');
       } else if (this.get('isSignUpPage') || this.get('isLogoutPage')) {
+        console.log('currentUser: ' + this.get('currentUser'));
+        console.log('userLoggedIn: ' + this.get('userLoggedIn'));
         this.transitionToRoute('login');
       } else {
+        console.log('currentUser: ' + this.get('currentUser'));
+        console.log('userLoggedIn: ' + this.get('userLoggedIn'));
         this.transitionToRoute('logout');
       }
     }
