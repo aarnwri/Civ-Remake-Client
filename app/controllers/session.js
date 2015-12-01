@@ -98,6 +98,46 @@ export default Ember.Controller.extend({
     }
   },
 
+  signUp: function (userAttrs, successCallback = null, failCallback = null, finallyCallback = null) {
+    var controller = this;
+    var adapter = this.store.adapterFor('application');
+    var email = userAttrs.email;
+    var password = userAttrs.password;
+    var rememberMe = userAttrs.rememberMe;
+
+    this.store.adapterFor('application').updateHeadersWithEmailPassword(email, password);
+
+    var user = this.store.createRecord('user');
+    user.save().then(function (user) {
+      // success callback
+
+      adapter.updateHeadersWithToken(user.get('session.token'));
+
+      if (rememberMe) {
+        controller.setRememberedUser(email, password);
+      } else {
+        controller.setRememberedUser('', '');
+      }
+
+      if (successCallback) {
+        successCallback();
+      }
+    }, function (err) {
+      // failure callback
+
+      user.removeSelf();
+      console.log("saving user failed: err: " + err);
+
+      if (failCallback) {
+        failCallback();
+      }
+    }).finally(function () {
+      if (finallyCallback) {
+        finallyCallback();
+      }
+    });
+  },
+
   setRememberedUser: function (email, password) {
     localStorage.setItem('rememberedUserEmail', email);
     localStorage.setItem('rememberedUserPassword', password);
