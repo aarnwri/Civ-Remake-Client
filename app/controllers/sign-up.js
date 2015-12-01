@@ -1,49 +1,34 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  applicationController: Ember.inject.controller('application'),
+  sessionController: Ember.inject.controller('session'),
 
   email: '',
   password: '',
   passwordConfirmation: '',
   rememberMe: false,
 
-  handleRememberMeField: function () {
-    if (this.get('rememberMe')) {
-      this.get('applicationController').setRememberedUser({
-        email: this.get('email'),
-        password: this.get('password')
-      });
-    }
-  },
-
-  signup: function (email, password) {
-    var controller = this;
-
-    this.store.adapterFor('application').updateHeadersWithEmailPassword(email, password);
-
-    var user = this.store.createRecord('user');
-    user.save().then(function (user) {
-      // success callback
-
-      controller.handleRememberMeField();
-
-      controller.store.adapterFor('application').updateHeadersWithToken(user.get('session.token'));
-      controller.transitionToRoute('games');
-    }, function (err) {
-      // failure callback
-
-      user.removeSelf();
-      console.log("saving user failed: err: " + err);
-    }).finally(function () {
-      controller.clearFields();
-    });
-  },
-
   actions: {
     submitSignUpForm: function () {
+      var controller = this;
+      var userAttrs = {
+        'email': this.get('email'),
+        'password': this.get('password'),
+        'rememberMe': this.get('rememberMe')
+      };
+
       if (this.validFormData()) {
-        this.signup(this.get('email'), this.get('password'));
+        this.get('sessionController').signUp(userAttrs, function () {
+          // successCallback
+          controller.transitionToRoute('games');
+        }, function () {
+          // failCallback
+        }, function () {
+          // finallyCallback
+          controller.clearFields();
+        });
+      } else {
+        // TODO: still need to find a nice way of validating form data...
       }
     }
   },
