@@ -1,13 +1,22 @@
 <div class='col-md-2'>
   <h5>Game List</h5>
 
+  {{#each games as |game|}}
+    <div class="form-group">
+      {{#link-to "games.game" game class="btn btn-default form-control"}}{{game.name}}{{/link-to}}
+    </div>
+  {{/each}}
 
-  <div class="form-group">
-    <button class="btn btn-primary form-control" {{action 'createGame'}}>Create New</button>
-  </div>
   <div class="form-group">
     <button class="btn btn-primary form-control" {{action 'joinGame'}}>Join</button>
   </div>
+  <div class="form-group">
+    <button class="btn btn-primary form-control" {{action 'createGame'}}>Create New</button>
+  </div>
+
+</div>
+<div class='col-md-10'>
+  {{outlet}}
 </div>
 
 {{partial 'partials/modal-form'}}
