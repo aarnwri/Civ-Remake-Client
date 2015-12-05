@@ -15,7 +15,8 @@ export default Ember.Route.extend({
 
   // NOTE: we don't really need success or fail callbacks here...
   logout: function () {
-    var session = this.controllerFor('session').get('currentSession');
+    var sessioncontroller = this.controllerFor('session');
+    var session = sessioncontroller.get('currentSession');
 
     session.destroyRecord().then(
       null,
@@ -26,8 +27,11 @@ export default Ember.Route.extend({
   },
 
   onLogoutFinally: function () {
+    var sessionController = this.controllerFor('session');
     var adapter = this.store.adapterFor('application');
+
     adapter.removeAuthHeader();
+    sessionController.saveSessionLocally(null);
 
     this.store.unloadAll();
     this.get('resolve')();

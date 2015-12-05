@@ -8,15 +8,27 @@ export default Ember.Controller.extend({
 
   currentSession: Ember.computed.alias('sessions.firstObject'),
 
-  setLocalToken: function (token = null) {
-    if (token) {
-      localStorage.setItem('token', token);
+  saveSessionLocally: function (session = null) {
+    if (session) {
+      localStorage.setItem('sessionToken', session.get('token'));
+      localStorage.setItem('sessionId', session.get('id'));
     } else {
-      localStorage.removeItem('token');
+      localStorage.removeItem('sessionToken');
+      localStorage.removeItem('sessionId');
     }
   },
 
-  getLocalToken: function () {
-    return localStorage.getItem('token');
+  getSessionLocally: function () {
+    var token = localStorage.getItem('sessionToken');
+    var id = localStorage.getItem('sessionId');
+
+    if (token && id) {
+      return {
+        'token': token,
+        'id': id
+      };
+    } else {
+      return null;
+    }
   }
 });
