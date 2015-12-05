@@ -6,9 +6,11 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('login');
-  this.route('sign-up');
-  this.route('logout');
+  this.route('session', function() {
+    this.route('login');
+    this.route('logout');
+    this.route('sign-up');
+  });
 
   this.route('games', function() {
     this.route('game', { path: '/:game_id'});

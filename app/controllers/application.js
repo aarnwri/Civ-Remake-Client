@@ -2,22 +2,37 @@ import Ember from 'ember';
 import config from '../config/environment';
 
 export default Ember.Controller.extend({
+
   sessionController: Ember.inject.controller('session'),
 
   currentUser: Ember.computed.alias('sessionController.currentSession.user'),
-  // currentUser: function () {
-  //
-  // }.property('sessionController.session')
-
   userLoggedIn: Ember.computed.bool('currentUser'),
-  // userLoggedIn: function () {
-  //   return this.get('currentUser') ? true : false;
-  // }.property('currentUser'),
 
-  ////////////////////////////////////////////////////////////////////////
-  /// data helpers
-  ////////////////////////////////////////////////////////////////////////
+  isLoginPage: Ember.computed.equal('currentPath', 'session.login'),
+  isSignUpPage: Ember.computed.equal('currentPath', 'session.sign-up'),
+  isLogoutPage: Ember.computed.equal('currentPath', 'session.logout'),
 
+  authActionName: function () {
+    if (this.get('userLoggedIn')) {
+      return 'Logout';
+    } else {
+      if (this.get('isSignUpPage') || this.get('isLogoutPage')) {
+        return 'Login';
+      } else {
+        return 'Sign Up';
+      }
+    }
+  }.property('currentPath', 'userLoggedIn'),
+
+  removeAllRecordsOfType: function (type) {
+    this.store.peekAll(type).forEach(function (model) {
+      model.removeSelf();
+    });
+  },
+
+  // NOTE: this is not being used since now there is a function called unloadAll
+  // I want to keep this in here in the case that for any reason unloadAll doesn't work
+  // for inFlight records...
   removeAllData: function () {
     var controller = this;
 
@@ -36,50 +51,18 @@ export default Ember.Controller.extend({
     });
   },
 
-  removeAllRecordsOfType: function (type) {
-    this.store.peekAll(type).forEach(function (model) {
-      model.removeSelf();
-    });
-  },
-
-  ////////////////////////////////////////////////////////////////////////
-  /// template helpers
-  ////////////////////////////////////////////////////////////////////////
-
-  isLoginPage: function () {
-    return this.get('currentPath') === "login";
-  }.property('currentPath'),
-
-  isSignUpPage: function () {
-    return this.get('currentPath') === "sign-up";
-  }.property('currentPath'),
-
-  isLogoutPage: function () {
-    return this.get('currentPath') === "logout";
-  }.property('currentPath'),
-
-  authActionName: function () {
-    if (this.get('isLoginPage')) {
-      return "Sign Up";
-    } else if (this.get('isSignUpPage') || this.get('isLogoutPage')) {
-      return "Login";
-    } else {
-      return "Logout";
-    }
-  }.property('currentPath'),
-
   actions: {
     triggerAuthAction: function () {
-      if (this.get('isLoginPage')) {
-        this.transitionToRoute('sign-up');
-      } else if (this.get('isSignUpPage') || this.get('isLogoutPage')) {
-        console.log('currentUser: ' + this.get('currentUser'));
-        console.log('userLoggedIn: ' + this.get('userLoggedIn'));
-        this.transitionToRoute('login');
-      } else {
-        console.log('currentUser: ' + this.get('currentUser'));
-        console.log('userLoggedIn: ' + this.get('userLoggedIn'));
-        this.transitionToRoute('logout');
+      switch(this.get('authActionName')) {
+        case 'Login':
+          this.transitionToRoute('session.login');
+          break;
+        case 'Logout':
+          this.transitionToRoute('session.logout');
+          break;
+        case 'Sign Up':
+          this.transitionToRoute('session.sign-up');
+          break;
       }
     }
   }
