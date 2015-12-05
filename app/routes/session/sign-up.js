@@ -24,10 +24,12 @@ export default Ember.Route.extend({
     var sessionController = this.controllerFor('session');
 
     var rememberMe = this.controller.get('rememberMe');
+
+    var session = user.get('session');
     var token = user.get('session.token');
 
     adapter.updateHeadersWithToken(token);
-    sessionController.setLocalToken(rememberMe ? token : null);
+    sessionController.saveSessionLocally(rememberMe ? session : null);
 
     this.transitionTo('games');
   },
