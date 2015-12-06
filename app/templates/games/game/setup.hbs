@@ -1,0 +1,6 @@
+<h5>Setup {{game.name}}</h5>
+<br>
+<h5>Players: </h5>
+{{#each game.players as |player|}}
+  {{player.user.email}}
+{{/each}}

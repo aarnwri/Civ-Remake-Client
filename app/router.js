@@ -13,7 +13,10 @@ Router.map(function() {
   });
 
   this.route('games', function() {
-    this.route('game', { path: '/:game_id'});
+    this.route('game', { path: '/:game_id'}, function() {
+      this.route('setup');
+    });
+    this.route('join');
   });
 });
 

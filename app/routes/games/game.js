@@ -8,6 +8,12 @@ export default Ember.Route.extend({
     return this.store.findRecord('game', params.game_id);
   },
 
+  afterModel: function (game, transition) {
+    if (!game.get('started')) {
+      this.transitionTo('games.game.setup', game);
+    }
+  },
+
   setupController: function (controller, model) {
     controller.set('game', model);
   }
