@@ -3,18 +3,20 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
   model: function (params) {
-    console.log('model hook params: ' + params);
-    console.log('id: ' + params.game_id);
     return this.store.findRecord('game', params.game_id);
   },
 
-  afterModel: function (game, transition) {
-    if (!game.get('started')) {
-      this.transitionTo('games.game.setup', game);
+  afterModel: function (game) {
+    if (game.get('players.length') === 0) {
+      game.reload();
     }
   },
 
   setupController: function (controller, model) {
     controller.set('game', model);
+
+    if (!model.get('started')) {
+      this.transitionTo('games.game.setup', model);
+    }
   }
 });

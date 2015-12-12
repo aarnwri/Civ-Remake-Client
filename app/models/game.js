@@ -5,6 +5,6 @@ export default Base.extend({
   name: DS.attr('string'),
   started: DS.attr('boolean'),
 
-  creator: DS.belongsTo('user', { async: false }),
+  creator: DS.belongsTo('user'),
   players: DS.hasMany('player')
 });
