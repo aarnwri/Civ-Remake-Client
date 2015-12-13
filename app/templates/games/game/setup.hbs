@@ -1,6 +1,43 @@
 <h5>Setup {{game.name}}</h5>
-<br>
-<h5>Players: </h5>
-{{#each game.players as |player|}}
-  {{player.user.email}}
-{{/each}}
+
+<div class="col-md-8 players-col">
+
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <form class="form-inline">
+        <div class="form-group">
+          <label>Players</label>
+          <!-- NOTE: this input is a hack to get the height right -->
+          <input class="form-control" style="visibility: hidden;">
+        </div>
+      </form>
+    </div>
+    <div class="panel-body">
+      {{#each game.players as |player|}}
+        {{player.user.email}}
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <div class="form-inline">
+        <div class="form-group">
+          <label>Invited</label>
+          <!-- NOTE: this input is a hack to get the pull-right class to "work" inside the panel header -->
+          <input class="form-control" style="visibility: hidden;">
+        </div>
+        <button class="btn btn-default icon-btn pull-right" aria-label="add" {{action 'addInviteForm'}}>
+          {{fa-icon "plus" class="green"}} Invite
+        </button>
+      </div>
+
+    </div>
+    <div class="panel-body">
+      {{#each game.invites as |invite|}}
+        {{invite.user.email}}
+      {{/each}}
+    </div>
+  </div>
+
+</div>
