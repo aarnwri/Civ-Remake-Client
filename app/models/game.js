@@ -6,5 +6,6 @@ export default Base.extend({
   started: DS.attr('boolean'),
 
   creator: DS.belongsTo('user'),
-  players: DS.hasMany('player')
+  players: DS.hasMany('player'),
+  invites: DS.hasMany('invite')
 });

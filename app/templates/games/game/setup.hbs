@@ -27,15 +27,30 @@
           <!-- NOTE: this input is a hack to get the pull-right class to "work" inside the panel header -->
           <input class="form-control" style="visibility: hidden;">
         </div>
-        <button class="btn btn-default icon-btn pull-right" aria-label="add" {{action 'addInviteForm'}}>
+        <button class="btn btn-default pull-right" aria-label="add" {{action 'addInviteForm'}}>
           {{fa-icon "plus" class="green"}} Invite
         </button>
       </div>
-
     </div>
     <div class="panel-body">
       {{#each game.invites as |invite|}}
-        {{invite.user.email}}
+        <div class="form-inline form-group">
+          {{#if invite.sent}}
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Email: " value={{invite.user.email}} disabled>
+            </div>
+            <button class="btn btn-default disabled pull-right" aria-label="sent" {{action 'none'}}>
+              Sent
+            </button>
+          {{else}}
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Email: ">
+            </div>
+            <button class="btn btn-default pull-right" aria-label="send" {{action 'sendInvite'}}>
+              {{fa-icon "paper-plane" class="green"}} Send
+            </button>
+          {{/if}}
+        </div>
       {{/each}}
     </div>
   </div>

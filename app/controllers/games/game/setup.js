@@ -9,6 +9,10 @@ export default Ember.Controller.extend({
   actions: {
     addInviteForm: function () {
       console.log('addInviteForm called');
+      var invite = this.store.createRecord('invite', {
+        game: this.get('game'),
+      });
+      window.invite = invite;
     }
   }
 });
