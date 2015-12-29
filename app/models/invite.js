@@ -3,7 +3,7 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   // NOTE: email should only be used for the form, after it's saved it should
   // reference the user instead.
-  email: DS.attr('email'),
+  email: DS.attr('string'),
 
   received: DS.attr('boolean'),
   accepted: DS.attr('boolean'),
@@ -14,5 +14,5 @@ export default DS.Model.extend({
 
   sent: function () {
     return this.get('id') !== null;
-  }.property('id')
+  }.property('id'),
 });

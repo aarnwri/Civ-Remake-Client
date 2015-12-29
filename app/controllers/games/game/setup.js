@@ -13,6 +13,6 @@ export default Ember.Controller.extend({
         game: this.get('game'),
       });
       window.invite = invite;
-    }
+    },
   }
 });

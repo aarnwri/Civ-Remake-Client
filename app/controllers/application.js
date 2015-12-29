@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import config from '../config/environment';
+import ModalMixin from 'civ-remake-client/mixins/modal';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend( ModalMixin, {
 
   sessionController: Ember.inject.controller('session'),
 

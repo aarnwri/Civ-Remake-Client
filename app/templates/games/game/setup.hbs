@@ -37,16 +37,16 @@
         <div class="form-inline form-group">
           {{#if invite.sent}}
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Email: " value={{invite.user.email}} disabled>
+              {{input type="text" value=invite.user.email class="form-control" placeholder="Email: " disabled=true}}
             </div>
             <button class="btn btn-default disabled pull-right" aria-label="sent" {{action 'none'}}>
               Sent
             </button>
           {{else}}
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Email: ">
+              {{input type="text" value=invite.email class="form-control" placeholder="Email: "}}
             </div>
-            <button class="btn btn-default pull-right" aria-label="send" {{action 'sendInvite'}}>
+            <button class="btn btn-default pull-right" aria-label="send" {{action 'sendInvite' invite}}>
               {{fa-icon "paper-plane" class="green"}} Send
             </button>
           {{/if}}

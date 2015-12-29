@@ -1,18 +1,18 @@
-<div id="modal-form" class="modal fade">
+<div id="modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">{{modalFormTitle}}</h4>
+        <h4 class="modal-title">{{modalTitle}}</h4>
       </div>
       <div class="modal-body">
-        {{partial partialToRenderInBody}}
+        {{partial modalBodyPartialName}}
       </div>
       <div class="modal-footer">
-        {{#if footerHasCancelButton}}
+        {{#if modalHasCancelButton}}
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         {{/if}}
-        <button type="button" class="btn btn-primary" {{action 'forwardAction' footerSubmitButtonAction}}>{{footerSubmitButtonTitle}}</button>
+        <button type="button" class="btn btn-primary" {{action 'forwardAction' modalSubmitAction}}>{{modalSubmitTitle}}</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
